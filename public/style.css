@@ -1,0 +1,84 @@
+body {
+    color: lightgrey;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: grey;
+    overflow: hidden;
+    color: #000;
+    padding: auto;
+    justify-content: space-between;
+
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav ul li {
+    list-style: none;
+    padding: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+nav ul li a:hover {
+
+    color: blue;
+   
+}
+
+h4 {
+    text-align: center;
+    margin-top: 20px;
+    color: red;
+}
+
+.btn-primary {
+    --bs-btn-color: white;
+    --bs-btn-bg: red;
+    --bs-btn-border-color: black;
+    --hover-bg: red;
+    --bs-btn-hover-bg: grey;
+}
+
+.btn {
+    --bs-btn-padding-x: 10px;
+    --bs-btn-padding-y: 0.375rem;
+    --bs-btn-font-family: ;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-font-weight: 400;
+
+}
+
+.form-label {
+    margin-bottom: .5rem;
+    margin-top: 10px;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+}
+.form-label {
+    margin-bottom: .5rem;
+    color: #000;
+}
+
+.g-3 {
+    --bs-gutter-x: 1rem;
+    margin: 10px;
+}
