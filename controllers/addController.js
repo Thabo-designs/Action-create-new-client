@@ -40,6 +40,8 @@ exports.addClient = (req, res) => {
         },
       );
       res.render("clients", { message: "Client added successfully!" });
+      res.redirect("/clients");
+
     },
   );
 

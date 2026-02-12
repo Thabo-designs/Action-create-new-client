@@ -1,0 +1,21 @@
+CREATE TABLE clients (
+    client_id int primary key auto_increment,
+    client_name VARCHAR(255) NOT NULL,
+    client_code VARCHAR(50) NOT NULL UNIQUE,
+    linked_contacts int DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+);
+
+
+CREATE TABLE contacts (
+    contact_id INT PRIMARY KEY AUTO_INCREMENT,
+    client_id INT NOT NULL,
+    contact_name VARCHAR(255) NOT NULL,
+    contact_surname VARCHAR(255) NOT NULL,
+    contact_email VARCHAR(255) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
