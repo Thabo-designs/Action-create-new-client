@@ -26,6 +26,46 @@ router.get("/clients", (req, res) => {
 
 router.get("/clients",(req,res) => {
     res.render("clients");
-})
+});
+
+router.get("/contacts", (req, res) => {
+  const contactsQuery = `
+    SELECT 
+  contacts.contact_id,
+  contacts.contact_name,
+  contacts.contact_surname,
+  contacts.contact_email,
+  clients.client_code
+FROM contacts
+LEFT JOIN clients ON contacts.client_id = clients.client_id;
+
+  `;
+
+  const clientsQuery = `
+    SELECT client_id, client_name, client_code FROM clients
+  `;
+
+
+
+  db_connection.query(contactsQuery, (err, contacts) => {
+    if (err) {
+      return res.render("contacts", { message: err.message });
+    }
+
+    db_connection.query(clientsQuery, (err, clients) => {
+      if (err) {
+        return res.render("contacts", { message: err.message });
+      }
+
+      res.render("contacts", { contacts, clients });
+    });
+  });
+});
+
+
+
+router.get("/contacts",(req,res) => {
+    res.render("contacts");
+});
 
 module.exports = router;

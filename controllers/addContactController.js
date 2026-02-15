@@ -9,38 +9,27 @@ const db_connection = mysql.createConnection({
 
 var client_code = "";
 
-exports.addClient = (req, res) => {
+exports.addContact = (req, res) => {
   console.log(req.body);
-  const client_name = req.body.name;
-  console.log("Client name: ", client_name);
+  const contact_name = req.body.name;
+  var contact_surname = req.body.Surname;
+  var contact_email = req.body.email;
+
+  console.log("body name: ", req.body);
+ 
+//   res.render("contacts", { message: "Error adding contacts!" });
 
   db_connection.query(
-    "INSERT INTO clients SET ?",
-    { client_name: client_name , client_code: client_name},
+    "INSERT INTO contacts SET ?",
+    { contact_name: contact_name , contact_surname: contact_surname, contact_email: contact_email},
     (err, result) => {
       if (err) {
-        console.log("Error adding client: ", err);
-        res.render("clients", { message: "Error adding client!" });
+        console.log("Error adding ccontacts: ", err);
+        res.render("contacts", { message: "Error adding contacts!" });
         return;
       }
-      const nextID = result.insertId;
-      const code = generateCode(client_name) + nextID.toString().padStart(3, "0");
-      console.log("this is the code: ", code)
-      db_connection.query(
-        "UPDATE clients SET client_code = ? WHERE client_id = ?",
-        [code, nextID],
-        (err, result) => {
-          if (err) {
-            console.log("Error updating client code: ", err);
-            res.render("clients", { message: "Error adding client!" });
-            return;
-          } else {
-            console.log("Client added successfully with code: ", code);
-          }
-        },
-      );
-      res.render("clients", { message: "Client added successfully!" });
-      res.redirect("/clients");
+      res.render("contacts", { message: "Client added successfully!" });
+      res.redirect("/contacts");
 
     },
   );

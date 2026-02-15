@@ -9,7 +9,37 @@ const db_connection = mysql.createConnection({
 
 var client_code = "";
 
-exports.addClient = (req, res) => {
+exports.linkClient = (req, res) => {
+  const { contactId, clientId } = req.body;
+    const update_linked_contacts = `UPDATE clients c
+SET linked_contacts = (
+  SELECT COUNT(*)
+  FROM contacts ct
+  WHERE ct.client_id = c.client_id);`;
+
+  db_connection.query(
+    "UPDATE contacts SET client_id = ? WHERE contact_id = ?",
+    [clientId, contactId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Failed to link contact");
+      }
+      db_connection.query(update_linked_contacts,
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Failed to link contact");
+      }
+    });
+      // Redirect back to contacts page so user sees updated table
+      res.redirect("/contacts");
+    }
+  );
+};
+
+
+exports.delinkClient = (req, res) => {
   console.log(req.body);
   const client_name = req.body.name;
   console.log("Client name: ", client_name);
@@ -68,59 +98,6 @@ exports.addClient = (req, res) => {
       }
       return result.toUpperCase();
     }
-  }
-
-  function formatNumber(client_name) {
-    const nextID = getNextIDTwo(db_connection, (err, nextID) => {
-      if (err) {
-        console.error("Error getting next ID:", err);
-      } else {
-        console.log("This is next ID: ", nextID);
-        const formattedNumber = nextID.toString().padStart(3, "0");
-        client_code = generateCode(client_name) + formattedNumber;
-        console.log("Generated Code:", client_code);
-      }
-    });
-  }
-
-  function generateCodeWithNumber(client_name) {
-    console.log(
-      "Generating code for client: ",
-      generateCode(client_name) + formatNumber().toString(),
-    );
-    return generateCode(client_name) + formatNumber().toString();
-  }
-
-  function getNextID(db_connection, callback) {
-    db_connection.query(
-      "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
-      [process.env.DATABASE, "clients"],
-      (err, result) => {
-        if (err) {
-          console.log("Error fetching next ID: ", err);
-          return callback(err, null);
-        } else {
-          const nextID = result[0].AUTO_INCREMENT || 1; // Default to 1 if AUTO_INCREMENT is null
-          console.log("Next ID: ", nextID);
-          callback(null, nextID);
-        }
-      },
-    );
-  }
-
-  function getNextIDTwo(db_connection, callback) {
-    db_connection.query(
-      "SELECT COALESCE(MAX(client_id), 0) + 1 AS NextID FROM clients",
-      (err, result) => {
-        if (err) {
-          
-          return callback(err, null);
-        }
-        const nextID = result[0].NextID;
-    
-        callback(null, nextID);
-      },
-    );
   }
 };
 

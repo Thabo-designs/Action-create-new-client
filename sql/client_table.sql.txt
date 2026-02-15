@@ -11,7 +11,7 @@ CREATE TABLE clients (
 
 CREATE TABLE contacts (
     contact_id INT PRIMARY KEY AUTO_INCREMENT,
-    client_id INT NOT NULL,
+    client_id INT DEFAULT 0,
     contact_name VARCHAR(255) NOT NULL,
     contact_surname VARCHAR(255) NOT NULL,
     contact_email VARCHAR(255) UNIQUE,

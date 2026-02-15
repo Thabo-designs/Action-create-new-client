@@ -3,6 +3,10 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const dotenv = require('dotenv');
+const exphbs = require("express-handlebars");
+const hbs = require("hbs");
+
+
 
 dotenv.config({path: "./.env"});
 
@@ -23,10 +27,17 @@ db_connection.connect((err) => {
         return;
     } else {
         console.log("Connected to workbench successfully!");
-    }})
+    }});
+
+
 
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
+
+hbs.registerHelper("ifCond", function (v1, v2, options) {
+  return (v1 === v2) ? options.fn(this) : options.inverse(this);
+});
+
 app.set("view engine", "hbs");
 
 app.use(express.urlencoded({extended: false}));

@@ -69,9 +69,12 @@ h4 {
 
 .form-control {
     display: block;
-    width: 100%;
+    width: 60%;
     padding: .375rem .75rem;
     font-size: 1rem;
+    background-color: gainsboro;
+    border-top-color: black;
+    border-right-color: black;
 }
 .form-label {
     margin-bottom: .5rem;
@@ -81,4 +84,8 @@ h4 {
 .g-3 {
     --bs-gutter-x: 1rem;
     margin: 10px;
+}
+
+.myh4 {
+    color: #000;
 }
